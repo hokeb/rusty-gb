@@ -4,8 +4,9 @@ pub struct Mmu
 {
     cartridge: Box<dyn Cartridge>,
     v_ram: Vec<u8>,
-    e_ram: Vec<u8>,
-    w_ram: Vec<u8>,
+    _e_ram: Vec<u8>,
+    w_ram: [u8; 0x8000],
+    w_rambank: usize,
     oam: Vec<u8>,
     h_ram: Vec<u8>
 }
@@ -15,8 +16,9 @@ impl Mmu {
         Mmu {
             cartridge: new_cartridge(rom_path),
             v_ram: vec![],
-            e_ram: vec![],
-            w_ram: vec![],
+            _e_ram: vec![],
+            w_ram: [0; 0x8000],
+            w_rambank: 1,
             oam: vec![],
             h_ram: vec![]
         }
@@ -34,6 +36,13 @@ impl Mmu {
             0xFF80 ..= 0xFFEE => self.h_ram[addr as usize], // HRAM (High RAM)
             0xFFFF ..= 0xFFFF => todo!(),                   // Interrupt Enable Register (IE)
             _ => panic!("Address is prohibited or non existent on the GB")
+        }
+    }
+
+    pub fn write(&mut self, addr: u16, b: u8) {
+        match addr {
+            0xD000 ..= 0xDFFF => self.w_ram[(self.w_rambank * 0x1000) | (addr as usize & 0x0FFF)] = b,
+            _ => panic!("Writing to {:X?} not yet implemented", addr)
         }
     }
 }

@@ -1,3 +1,4 @@
+use crate::cartridge::cartridge_info::header;
 
 #[derive(Debug)]
 pub enum Flag {
@@ -38,7 +39,7 @@ impl Registers {
             e: 0xD8,
             h: 0x01,
             l: 0x4D,
-            pc: 0x100,
+            pc: header::ENTRY_POINT,
             sp: 0xFFFE
         }
     }
@@ -58,6 +59,15 @@ impl Registers {
 
     pub fn set_flags(&mut self, flags: u8) {
         self.f = flags & 0xF0;
+    }
+
+    pub fn flag(&mut self, flags: Flag, set: bool) {
+        let mask = flags as u8;
+        match set {
+            true  => self.f |=  mask,
+            false => self.f &= !mask,
+        }
+        self.f &= 0xF0;
     }
 
     pub fn get_af(&self) -> u16 {
@@ -94,6 +104,18 @@ impl Registers {
     pub fn set_hl(&mut self, value: u16) {
         self.h = (value >> 8) as u8;
         self.l = (value & 0x00FF) as u8;
+    }
+
+    pub fn hl_inc(&mut self) -> u16 {
+        let res = self.get_hl();
+        self.set_hl(res + 1);
+        res
+    }
+
+    pub fn hl_dec(&mut self) -> u16 {
+        let res = self.get_hl();
+        self.set_hl(res - 1);
+        res
     }
 }
 

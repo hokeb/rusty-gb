@@ -1,7 +1,4 @@
-use std::fs::File;
-use std::io::Read;
 use rusty_gb::gameboy::GameBoy;
-
 
 fn main() {
     let matches = clap::Command::new("rusty-gb")

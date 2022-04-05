@@ -1,24 +1,24 @@
 use crate::cartridge::Cartridge;
 
 pub struct Mbc1 {
-    rom: Vec<u8>,
-    ram: Vec<u8>,
-    ram_on: bool,
-    ram_mode: bool,
-    rom_bank: usize,
-    ram_bank: usize
+    _rom: Vec<u8>,
+    _ram: Vec<u8>,
+    _ram_on: bool,
+    _ram_mode: bool,
+    _rom_bank: usize,
+    _ram_bank: usize
 }
 
 impl Mbc1 {
     pub fn new(data: Vec<u8>) -> Mbc1 {
 
         Mbc1 {
-            rom: data,
-            ram: vec![],
-            ram_on: false,
-            ram_mode: false,
-            rom_bank: 1,
-            ram_bank: 0
+            _rom: data,
+            _ram: vec![],
+            _ram_on: false,
+            _ram_mode: false,
+            _rom_bank: 1,
+            _ram_bank: 0
         }
     }
 }

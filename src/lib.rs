@@ -1,3 +1,5 @@
+extern crate core;
+
 pub mod gameboy;
 pub mod cpu;
 pub mod register;

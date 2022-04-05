@@ -1,21 +1,15 @@
 
-mod header {
-
+pub mod header {
     pub const ENTRY_POINT: u16 = 0x100;
-    pub const LOGO: u16 = 0x104;
-    pub const TITLE: u16 = 0x134;
-    pub const MANUFACTURER_CODE: u16 = 0x13F;
-    pub const CGB_FLAG: u16 = 0x143;
-    pub const NEW_LICENSE_CODE: u16 = 0x144;
-    pub const SGB_FLAG: u16 = 0x146;
+    //pub const LOGO: u16 = 0x104;
+    //pub const CGB_FLAG: u16 = 0x143;
+    //pub const SGB_FLAG: u16 = 0x146;
     pub const CARTRIDGE_TYPE: u16 = 0x147;
     pub const ROM_SIZE: u16 = 0x148;
     pub const RAM_SIZE: u16 = 0x149;
-    pub const DESTINATION_CODE: u16 = 0x14A;
-    pub const OLD_LICENSE_CODE: u16 = 0x14B;
     pub const VERSION_NUMBER: u16 = 0x14C;
-    pub const HEADER_CHECKSUM: u16 = 0x14D;
-    pub const GLOBAL_CHECKSUM: u16 = 0x14E;
+    //pub const HEADER_CHECKSUM: u16 = 0x14D;
+    //pub const GLOBAL_CHECKSUM: u16 = 0x14E;
 }
 
 pub enum CartridgeType {
