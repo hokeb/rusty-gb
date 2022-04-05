@@ -4,10 +4,10 @@ use rusty_gb::gameboy::GameBoy;
 
 
 fn main() {
-    let matches = clap::Command::new("gb-emu")
+    let matches = clap::Command::new("rusty-gb")
         .version("0.1")
         .author("hokeb")
-        .about("A GameBoy emulator")
+        .about("A GameBoy Emulator")
         .arg(clap::Arg::new("filepath")
             .long("filepath")
             .short('f')
