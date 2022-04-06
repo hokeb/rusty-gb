@@ -37,7 +37,7 @@ impl Mmu {
             0xC000 ..= 0xCFFF => self.w_ram[addr as usize], // WRAM (Worker RAM)
             0xD000 ..= 0xDFFF => todo!(),                   // CGB Swappable WRAM (BANK 1 ~ 7)
             0xFE00 ..= 0xFE9F => self.oam[addr as usize],   // OAM - Sprite Attribute Table
-            0xFF40 ..= 0xFF4F => self.gpu.rb(address),
+            0xFF40 ..= 0xFF4F => todo!(),                   // GPU
             0xFF00 ..= 0xFF7F => 0,                         // I/O Registers TODO: do not send 0s back
             0xFF80 ..= 0xFFEE => self.h_ram[addr as usize], // HRAM (High RAM)
             0xFFFF            => todo!(),                   // Interrupt Enable Register (IE)

@@ -13,7 +13,7 @@ impl GameBoy {
 
     pub fn run(&mut self) {
         loop {
-            self.cpu.tick()
+            self.cpu.tick();
         }
     }
 }
