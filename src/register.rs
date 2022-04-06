@@ -52,15 +52,6 @@ impl Registers {
         self.pc -= 1;
     }
 
-    pub fn flag_is_set(&self, flag: Flag) -> bool {
-        let bit_mask = flag as u8;
-        (self.f & bit_mask) > 0
-    }
-
-    pub fn set_flags(&mut self, flags: u8) {
-        self.f = flags & 0xF0;
-    }
-
     pub fn flag(&mut self, flags: Flag, set: bool) {
         let mask = flags as u8;
         match set {
@@ -68,6 +59,11 @@ impl Registers {
             false => self.f &= !mask,
         }
         self.f &= 0xF0;
+    }
+
+    pub fn get_flag(&self, flags: Flag) -> bool {
+        let mask = flags as u8;
+        self.f & mask > 0
     }
 
     pub fn get_af(&self) -> u16 {

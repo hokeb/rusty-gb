@@ -2,7 +2,8 @@ use crate::cpu::Cpu;
 use crate::register::Flag::*;
 
 pub fn nop(_: &mut Cpu) -> u32 { 1 }
-pub fn stop(cpu: &mut Cpu) -> u32 { 1 } // TODO: fix this in MMU
+pub fn stop(_: &mut Cpu) -> u32 { 1 } // TODO: fix this in MMU
+pub fn halt(cpu: &mut Cpu) -> u32 { cpu.halted = true; 1 }
 
 // LOAD / STORE
 pub fn ld_a_n(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.get_byte(); 2 }
@@ -22,6 +23,15 @@ pub fn ld_a_bc_n(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.mmu.read(cpu.reg.get_bc
 pub fn ld_a_de_n(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.mmu.read(cpu.reg.get_de()); 2 }
 pub fn ld_a_hli_n(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.mmu.read(cpu.reg.hl_inc()); 2 }
 pub fn ld_a_hld_n(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.mmu.read(cpu.reg.hl_dec()); 2 }
+
+pub fn ld_a_a(_: &mut Cpu) -> u32 { 1 }
+pub fn ld_a_b(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.reg.b; 1 }
+pub fn ld_a_c(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.reg.c; 1 }
+pub fn ld_a_d(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.reg.d; 1 }
+pub fn ld_a_e(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.reg.e; 1 }
+pub fn ld_a_h(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.reg.h; 1 }
+pub fn ld_a_l(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.reg.l; 1 }
+pub fn ld_a_hl_n(cpu: &mut Cpu) -> u32 { cpu.reg.a = cpu.mmu.read(cpu.reg.get_hl()); 2  }
 
 pub fn ld_b_b(_: &mut Cpu) -> u32 { 1 }
 pub fn ld_b_a(cpu: &mut Cpu) -> u32 { cpu.reg.b = cpu.reg.a; 1 }
@@ -77,6 +87,14 @@ pub fn ld_l_e(cpu: &mut Cpu) -> u32 { cpu.reg.l = cpu.reg.e; 1 }
 pub fn ld_l_h(cpu: &mut Cpu) -> u32 { cpu.reg.l = cpu.reg.h; 1 }
 pub fn ld_l_hl_n(cpu: &mut Cpu) -> u32 { cpu.reg.l = cpu.mmu.read(cpu.reg.get_hl()); 2 }
 
+pub fn ld_hl_n_a(cpu: &mut Cpu) -> u32 { cpu.mmu.write(cpu.reg.get_hl(), cpu.reg.a); 2 }
+pub fn ld_hl_n_b(cpu: &mut Cpu) -> u32 { cpu.mmu.write(cpu.reg.get_hl(), cpu.reg.b); 2 }
+pub fn ld_hl_n_c(cpu: &mut Cpu) -> u32 { cpu.mmu.write(cpu.reg.get_hl(), cpu.reg.c); 2 }
+pub fn ld_hl_n_d(cpu: &mut Cpu) -> u32 { cpu.mmu.write(cpu.reg.get_hl(), cpu.reg.d); 2 }
+pub fn ld_hl_n_e(cpu: &mut Cpu) -> u32 { cpu.mmu.write(cpu.reg.get_hl(), cpu.reg.e); 2 }
+pub fn ld_hl_n_h(cpu: &mut Cpu) -> u32 { cpu.mmu.write(cpu.reg.get_hl(), cpu.reg.h); 2 }
+pub fn ld_hl_n_l(cpu: &mut Cpu) -> u32 { cpu.mmu.write(cpu.reg.get_hl(), cpu.reg.l); 2 }
+
 pub fn ld_bc_m_a(cpu: &mut Cpu) -> u32 { cpu.mmu.write(cpu.reg.get_bc(), cpu.reg.a); 2 }
 pub fn ld_de_m_a(cpu: &mut Cpu) -> u32 { cpu.mmu.write(cpu.reg.get_de(), cpu.reg.a); 2 }
 pub fn ld_hli_a(cpu: &mut Cpu) -> u32 { cpu.mmu.write(cpu.reg.hl_inc(), cpu.reg.a); 2 }
@@ -88,6 +106,15 @@ pub fn ld_hl_nn(cpu: &mut Cpu) -> u32 { let v = cpu.get_word(); cpu.reg.set_hl(v
 pub fn ld_sp_nn(cpu: &mut Cpu) -> u32 { cpu.reg.sp = cpu.get_word(); 3 }
 
 // DATA PROCESSING
+pub fn add_a_a(cpu: &mut Cpu) -> u32 { cpu.alu_add(cpu.reg.a, false); 1}
+pub fn add_a_b(cpu: &mut Cpu) -> u32 { cpu.alu_add(cpu.reg.b, false); 1 }
+pub fn add_a_c(cpu: &mut Cpu) -> u32 { cpu.alu_add(cpu.reg.c, false); 1 }
+pub fn add_a_d(cpu: &mut Cpu) -> u32 { cpu.alu_add(cpu.reg.d, false); 1 }
+pub fn add_a_e(cpu: &mut Cpu) -> u32 { cpu.alu_add(cpu.reg.e, false); 1 }
+pub fn add_a_h(cpu: &mut Cpu) -> u32 { cpu.alu_add(cpu.reg.h, false); 1 }
+pub fn add_a_l(cpu: &mut Cpu) -> u32 { cpu.alu_add(cpu.reg.l, false); 1 }
+pub fn add_a_hl_n(cpu: &mut Cpu) -> u32 { let v = cpu.mmu.read(cpu.reg.get_hl()); cpu.alu_add(v, false); 2 }
+
 pub fn add_hl_bc(cpu: &mut Cpu) -> u32 { cpu.alu_add16(cpu.reg.get_bc()); 2 }
 pub fn add_hl_de(cpu: &mut Cpu) -> u32 { cpu.alu_add16(cpu.reg.get_de()); 2 }
 pub fn add_hl_hl(cpu: &mut Cpu) -> u32 { cpu.alu_add16(cpu.reg.get_hl()); 2 }
