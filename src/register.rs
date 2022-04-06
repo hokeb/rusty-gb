@@ -1,3 +1,4 @@
+use std::fmt::{Display, format, Formatter, write};
 use crate::cartridge::cartridge_info::header;
 
 #[derive(Debug)]
@@ -112,6 +113,26 @@ impl Registers {
         let res = self.get_hl();
         self.set_hl(res - 1);
         res
+    }
+}
+
+impl Display for Registers {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            r#"Registers {{
+                a: {:X?},
+                f: {:X?},
+                b: {:X?},
+                c: {:X?},
+                d: {:X?},
+                e: {:X?},
+                h: {:X?},
+                l: {:X?},
+                sp: {:X?},
+                pc: {:X?},
+            "#,
+            self.a, self.f, self.b, self.c, self.d, self.e, self.h, self.l, self.sp, self.pc)
     }
 }
 
